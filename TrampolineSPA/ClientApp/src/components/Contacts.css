@@ -1,0 +1,12 @@
+.footerInfo img {
+    width: 48px;
+    margin: 10px;
+}
+
+.footerInfo {
+    color: black;
+}
+
+.footerInfo span {
+    color: gray;
+}

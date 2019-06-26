@@ -1,0 +1,15 @@
+﻿.nav-item a {
+  color: white ;
+  font-size: 1.1em;
+}
+
+.nav-item a:hover {
+  color: rgb(0, 123, 255) !important;
+}
+
+#main-nav {
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
