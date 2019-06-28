@@ -1,41 +1,35 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Repository.Interface;
+using Repository.Models;
 using TrampolineSPA.Extensions.EmailSender;
-using TrampolineSPA.Models;
-using TrampolineSPA.Models.Entity;
 
 namespace TrampolineSPA.Controllers
 {
     [Route("api/[controller]")]
     public class HomeController : Controller
     {
-        private readonly ApplicationContext _db;
         private readonly IEmailSender _emailSender;
-
-        public HomeController(ApplicationContext context, IEmailSender emailSender)
+        private readonly IRepository _repo;
+        
+        public HomeController(IRepository repo, IEmailSender emailSender)
         {
-            _db = context;
+            _repo = repo;
             _emailSender = emailSender;
         }
 
         [Route("GetBlogList")]
         [HttpGet]
-        public IEnumerable<Blog> GetBlogList() => _db.Blogs.ToList();
+        public IEnumerable<Blog> GetBlogList() => _repo.GetAll<Blog>();
 
         [Route("GetServiceList")]
         [HttpGet]
-        public IEnumerable<Service> GetServiceList() => _db.Services.ToList();
+        public IEnumerable<Service> GetServiceList() => _repo.GetAll<Service>();
 
         [Route("GetServiceForm")]
         [HttpGet]
-        public JsonResult GetServiceForm(int? id)
-        {
-            var service = _db.Services.Find(id);
-
-            return Json(service);
-        }
+        public JsonResult GetServiceForm(int? id) => Json(_repo.GetById<Service>(id));
 
         [Route("SendServiceForm")]
         [HttpPost]
@@ -45,34 +39,29 @@ namespace TrampolineSPA.Controllers
             
             await CreateClient(client, serviceId);
 
-            _emailSender.SendInstructions(_db.Services.Find(serviceId).Name, client.Email, "Bla-bla");
+            _emailSender.SendInstructions(_repo.GetById<Service>(serviceId).Name, client.Email, "Bla-bla");
             return Json("Your information has been submitted!");
         }
 
         [Route("GetClientInfo")]
         [HttpGet]
-        public JsonResult GetClientInfo(string email)
-        {
-            var client = _db.Clients.FirstOrDefault(c => c.Email == email);
+        public JsonResult GetClientInfo(string email) => Json(_repo.GetFirst<Client>(c => c.Email == email));
 
-            return Json(client);
-        }
-        
         [Route("SendRecord")]
         [HttpPost]
         public async Task SendRecord(Record record)
         {
             if (ModelState.IsValid)
             {
-                _db.Records.Add(record);
-                await _db.SaveChangesAsync();
+                _repo.Create(record);
+                await _repo.SaveAsync();
             }
         }
         
         public async Task CreateClient(Client client, int serviceId)
         {
             var clientExist =
-                _db.Clients.FirstOrDefault(c => c.Email == client.Email | c.PhoneNumber == client.PhoneNumber);
+                _repo.GetFirst<Client>(c => c.Email == client.Email | c.PhoneNumber == client.PhoneNumber);
 
             if (clientExist != null)
             {
@@ -82,12 +71,12 @@ namespace TrampolineSPA.Controllers
                     ServiceId = serviceId
                 };
 
-                _db.ClientServices.Add(clientServices);
-                await _db.SaveChangesAsync();
+                _repo.Create(clientServices);
+                await _repo.SaveAsync();
             }
             else
             {
-                _db.Clients.Add(client);
+                _repo.Create(client);
 
                 ClientServices clientServices = new ClientServices
                 {
@@ -95,8 +84,8 @@ namespace TrampolineSPA.Controllers
                     ServiceId = serviceId
                 };
 
-                _db.ClientServices.Add(clientServices);
-                await _db.SaveChangesAsync();
+                _repo.Create(clientServices);
+                await _repo.SaveAsync();
             }
         }
     }

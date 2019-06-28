@@ -1,8 +1,9 @@
 using System;
+using Repository.Interface;
 
-namespace TrampolineSPA.Models.Entity
+namespace Repository.Models
 {
-    public class ClientServices
+    public class ClientServices : IEntity
     {
         public int Id { get; set; }
         public string CreationDate { get; set; } = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");

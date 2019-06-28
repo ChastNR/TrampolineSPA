@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Repository.Interface;
 
-namespace TrampolineSPA.Models.Entity
+namespace Repository.Models
 {
-    public class Service
+    public class Service : IEntity
     {
         public int Id { get; set; }
 
