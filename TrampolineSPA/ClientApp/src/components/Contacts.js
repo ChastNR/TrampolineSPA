@@ -54,16 +54,16 @@ export class Contacts extends Component {
                                     <h5 className="text-uppercase font-weight-bold">Products</h5>
                                     <hr className="bg-white"/>
                                     <p>
-                                        <a href="">Свободные прыжки</a>
+                                        <a href="#">Свободные прыжки</a>
                                     </p>
                                     <p>
-                                        <a href="">Гимнастика для детей</a>
+                                        <a href="#">Гимнастика для детей</a>
                                     </p>
                                     <p>
-                                        <a href="">Фитнес на батуте</a>
+                                        <a href="#">Фитнес на батуте</a>
                                     </p>
                                     <p>
-                                        <a href="">Записаться</a>
+                                        <a href="#">Записаться</a>
                                     </p>
 
                                 </div>
@@ -71,16 +71,16 @@ export class Contacts extends Component {
                                     <h5 className="text-uppercase font-weight-bold">Useful links</h5>
                                     <hr className="bg-white"/>
                                     <p>
-                                        <a href="">Ваш аккаунт</a>
+                                        <a href="#">Ваш аккаунт</a>
                                     </p>
                                     <p>
-                                        <a href="">Стать частью нашего коллектива</a>
+                                        <a href="#">Стать частью нашего коллектива</a>
                                     </p>
                                     <p>
-                                        <a href="">Блог</a>
+                                        <a href="#">Блог</a>
                                     </p>
                                     <p>
-                                        <a href="">Помощь</a>
+                                        <a href="#">Помощь</a>
                                     </p>
                                 </div>
                                 <div className="col-xl-3 col-md-6 mx-auto mb-4">

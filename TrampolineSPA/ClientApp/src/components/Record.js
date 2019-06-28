@@ -8,14 +8,14 @@ export class Record extends Component {
 
         let dt = new Date();
 
-        let currentMonth=('0'+(dt.getMonth())).slice(-2);
-        
+        let currentMonth = ('0' + (dt.getMonth())).slice(-2);
+
         let minDate = dt.getFullYear() + "-" + currentMonth + "-" + dt.getDate();
         let maxDate = dt.getFullYear() + "-" + currentMonth + "-31";
-        
+
         return (
             <input type="date" className="form-control" name="VisitDate"
-                   min={minDate} max={maxDate} />
+                   min={minDate} max={maxDate}/>
         );
     };
 
@@ -23,22 +23,19 @@ export class Record extends Component {
         let arr = [];
 
         let dt = new Date();
-        
+
         for (let i = 10; i < 22; i++) {
-            if(i > dt.getHours())
-            {
-                arr.push(<option key={i}>{i + ':00'}</option>)  
-            }
-            else
-            {
+            if (i > dt.getHours()) {
+                arr.push(<option key={i}>{i + ':00'}</option>)
+            } else {
                 i = dt.getHours() + 2;
                 arr.push(<option key={i}>{i + ':00'}</option>)
             }
         }
-        
+
         return (
             <select className="form-control" name="VisitTime">
-            {arr}
+                {arr}
             </select>
         );
     };
@@ -69,9 +66,7 @@ export class Record extends Component {
             <div className="py-5">
                 <div id="Record" className="mb-3">
                     <h1 className="text-center">
-                        <a className="text-dark">
-                            Записаться
-                        </a>
+                        Записаться
                     </h1>
                 </div>
                 <Container>
