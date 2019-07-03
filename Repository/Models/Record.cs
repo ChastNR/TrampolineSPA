@@ -1,11 +1,13 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Repository.Interface;
 
 namespace Repository.Models
 {
     public class Record : IEntity
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity), Key]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Укажите Ваше имя")]

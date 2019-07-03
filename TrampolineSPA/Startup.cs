@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ using Repository.Context;
 using Repository.Interface;
 using Repository.Repositories;
 using TrampolineSPA.Extensions.EmailSender;
+using TrampolineSPA.Extensions.SmsSender;
 
 namespace TrampolineSPA
 {
@@ -23,8 +25,19 @@ namespace TrampolineSPA
 
         public void ConfigureServices(IServiceCollection services)
         {
+            #region EmailSender
+
             services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
             services.AddTransient<IEmailSender, EmailSender>();
+
+            #endregion
+
+            #region SmsSender
+
+            services.Configure<SmsSettings>(Configuration.GetSection("SmsSettings"));
+            services.AddTransient<ISmsSender, SmsSender>();
+
+            #endregion
 
             services.AddDbContext<ApplicationContext>(options =>
             {
@@ -33,6 +46,17 @@ namespace TrampolineSPA
             services.AddTransient<IRepository, EfRepository<ApplicationContext>>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            //Use this to add Session
+            /*
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(20);
+                options.Cookie.HttpOnly = true;
+            });
+            */
+
 
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
         }
@@ -50,6 +74,10 @@ namespace TrampolineSPA
             }
 
             app.UseHttpsRedirection();
+
+            //Use this to add Session
+            //app.UseSession();
+
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 

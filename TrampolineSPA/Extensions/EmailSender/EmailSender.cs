@@ -17,21 +17,19 @@ namespace TrampolineSPA.Extensions.EmailSender
 
         public async Task SendEmailAsync(string mailTo, string mailSubject, string mailBody)
         {
-            MailAddress from = new MailAddress(EmailSettings.FromEmail, EmailSettings.DisplayName);
-            MailAddress to = new MailAddress(mailTo);
-            MailMessage m = new MailMessage(from, to)
+            MailMessage m = new MailMessage(
+                new MailAddress(EmailSettings.FromEmail, EmailSettings.DisplayName),
+                new MailAddress(mailTo))
             {
                 Subject = mailSubject,
                 Body = mailBody
             };
 
-            SmtpClient smtp = new SmtpClient(EmailSettings.PrimaryDomain, EmailSettings.PrimaryPort)
+            await new SmtpClient(EmailSettings.PrimaryDomain, EmailSettings.PrimaryPort)
             {
                 Credentials = new NetworkCredential(EmailSettings.UsernameEmail, EmailSettings.UsernamePassword),
                 EnableSsl = true
-            };
-
-            await smtp.SendMailAsync(m);
+            }.SendMailAsync(m);
         }
 
         public void SendEmail(string userEmail, string userTheme, string userMessage)

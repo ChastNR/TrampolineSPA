@@ -44,7 +44,7 @@ export class Record extends Component {
         let form = document.forms["clientRecordForm"];
         let status = document.getElementById("status");
         if (form.checkValidity()) {
-            await fetch("api/Home/SendRecord", {
+            await fetch("api/Record", {
                 method: "POST", body: new FormData(form)
             });
             status.setAttribute("style", "color:green;");

@@ -10,7 +10,7 @@ export class Services extends Component {
 
         this.toggle = this.toggle.bind(this);
 
-        fetch('api/Home/GetServiceList')
+        fetch('api/Service')
             .then(response => response.json())
             .then(data => {
                 this.setState({services: data, loading: false});
@@ -25,7 +25,7 @@ export class Services extends Component {
 
     openService = (id) => {
         this.toggle();
-        fetch('api/Home/GetServiceForm?Id=' + id)
+        fetch('api/Service/' + id)
             .then(response => response.json())
             .then(data => {
                 this.setState({service: data})
@@ -35,7 +35,7 @@ export class Services extends Component {
     sendServiceForm = async () => {
         let form = document.forms["buyServiceForm"];
         if (form.checkValidity()) {
-            await fetch("api/Home/SendServiceForm", {
+            await fetch("api/Service", {
                 method: "POST", body: new FormData(form)
             });
             this.toggle();

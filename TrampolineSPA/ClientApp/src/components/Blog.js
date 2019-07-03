@@ -8,7 +8,7 @@ export class Blog extends Component {
         super(props);
         this.state = {blogs: [], loading: true};
 
-        fetch('api/Home/GetBlogList')
+        fetch('api/Blog')
             .then(response => response.json())
             .then(data => {
                 this.setState({blogs: data, loading: false});
